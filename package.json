@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/JatJax/bartender_app/issues"
   },
-  "homepage": "https://github.com/JatJax/bartender_app#readme"
+  "homepage": "https://github.com/JatJax/bartender_app#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
