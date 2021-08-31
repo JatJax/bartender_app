@@ -8,21 +8,33 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
   .then(client => {
     console.log('Connected to Database');
     const db = client.db('bartender-app');
+    const drinksCollection = db.collection('drinks');
+
+    app.set('view engine', 'ejs');
+
+    // Uses
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true}));
+    // Listening
+    app.listen(3000, () =>{
+        console.log('listening on 3000');
+    })
+    // Getting
+    app.get('/', (req, res) =>{
+        const curser = db.collection('drinks').find().toArray()
+          .then(results =>{
+            res.render('index.ejs', {drinks: results})
+          })
+          .catch(error => console.error(error))
+    })
+    // Posting
+    app.post('/quotes', (req,res) => {
+      drinksCollection.insertOne(req.body)
+        .then(result =>{
+          res.redirect('/')
+        })
+        .catch(error => console.error(error))
+    })
   })
+  .catch(console.error);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
-
-app.listen(3000, () =>{
-    console.log('listening on 3000');
-})
-
-app.get('/', (req, res) =>{
-    res.sendFile(__dirname + '/index.html');
-    // Note: __dirname is the current directory you're in. Try logging it and see what you get!
-  // Mine was '/Users/zellwk/Projects/demo-repos/crud-express-mongo' for this app.
-})
-
-app.post('/quotes', (req,res) => {
-  console.log(req.body);
-})
