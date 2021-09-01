@@ -28,13 +28,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           .catch(error => console.error(error))
     })
     // Posting
-    app.post('/quotes', (req,res) => {
+    app.post('/drinks', (req,res) => {
       drinksCollection.insertOne(req.body)
         .then(result =>{
           res.redirect('/')
         })
         .catch(error => console.error(error))
     })
+    app.put('/drinks', (req, res) => {
+      console.log(req.body);
+  })
   })
   .catch(console.error);
+    
 
